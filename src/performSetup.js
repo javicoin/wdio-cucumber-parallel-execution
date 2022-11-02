@@ -1,7 +1,8 @@
-const fs_extra = require('fs-extra');
-const featureFileSplitter = require('./featureFileSplitter');
-const tmpFeatureFiles = new featureFileSplitter;
+'use strict';
 
+var fs_extra = require('fs-extra');
+var featureFileSplitter = require('./featureFileSplitter');
+var tmpFeatureFiles = new featureFileSplitter();
 
 /**
  * Compile and create splitted files
@@ -10,19 +11,13 @@ const tmpFeatureFiles = new featureFileSplitter;
  * @param {string} [options.tagExpression] - Tag expression to parse
  * @param {string} [options.ff] - Feature File Name to parse
  * @param {string} [options.lang] - Language of sourceSpecDirectory
- * @param {Boolean} [options.cleanTmpSpecDirectory] - Boolean for cleaning the Temp Spec Directory 
  * @return {Promise<void>}
  */
-let performSetup = function (options) {
+var performSetup = function performSetup(options) {
     try {
 
-        if(options.cleanTmpSpecDirectory){
-            //Remove Tmp Spec Directory during setup & Create One
-            fs_extra.removeSync(options.tmpSpecDirectory);
-        }
-
-        fs_extra.ensureDirSync(options.tmpSpecDirectory);
-
+        //Remove Tmp Spec Directory during setup & Create One
+        prepareTmpDirectory(options.tmpSpecDirectory);
 
         //Compile and Create Split Feature Files
         tmpFeatureFiles.compile({
@@ -34,6 +29,16 @@ let performSetup = function (options) {
         });
     } catch (e) {
         console.log('Error: ', e);
+    }
+};
+
+function prepareTmpDirectory(directory) {
+    if (fs_extra.existsSync(directory)) {
+        console.log(`Cleaning existing backup directory: ${directory}`);
+        fs_extra.readdirSync(directory).forEach(file => fs_extra.unlinkSync(path.join(directory, file)));
+    } else {
+        console.log((`Creating backup directory: ${directory}`));
+        fs_extra.mkdirSync(directory);
     }
 }
 

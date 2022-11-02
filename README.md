@@ -42,7 +42,6 @@ This Feature Creates/Removes the Spec and Temp Folders and puts every Scenario i
 | tagExpression (optional)         | string | Tag expression to parse                                                                         |
 | ff (optional)                    | string | Feature File Name to parse                                                                      |
 | lang (optional)                  | string | Language of sourceSpecDirectory                                                                 |
-| cleanTmpSpecDirectory            | Boolean| Boolean for cleaning the Temp Spec Directory                                                    |
 
 
 
@@ -85,8 +84,7 @@ if (argv.parallel === 'true') {
     tmpSpecDirectory = `${sourceSpecDirectory}/tmp`;
     wdioParallel.performSetup({
         sourceSpecDirectory: sourceSpecDirectory,
-        tmpSpecDirectory: tmpSpecDirectory,
-        cleanTmpSpecDirectory: true
+        tmpSpecDirectory: tmpSpecDirectory
     });
     featureFilePath = `${tmpSpecDirectory}/*.feature`
 }
