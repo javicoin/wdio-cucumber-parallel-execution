@@ -1,6 +1,7 @@
 'use strict';
 
 var fs_extra = require('fs-extra');
+const path = require('path');
 var featureFileSplitter = require('./featureFileSplitter');
 var tmpFeatureFiles = new featureFileSplitter();
 
